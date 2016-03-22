@@ -1,0 +1,4 @@
+*.swp
+*.es5.js
+tests/bower_components
+tests/index.html

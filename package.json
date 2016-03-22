@@ -1,0 +1,11 @@
+{
+  "name": "jinkela-datepicker",
+  "version": "1.0.0",
+  "description": "A DatePicker Control on Jinkela",
+  "main": "datepicker.js",
+  "author": "YanagiEiichi (yanagieiichi@web-tinker.com)",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel datepicker.js -o datepicker.es5.js"
+  }
+}

@@ -1,0 +1,19 @@
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.1.6/jinkela.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.1.6/directives/ref.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.1.6/directives/if.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.1.6/directives/on.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.1.6/plugins/nesting.js"></script>
+<script src="datepicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+  (new class extends Jinkela {
+    get template() {
+      return `
+        <div>
+          这是一个日期选择控件：<j-datepicker></j-datepicker>
+        </div>
+      `;
+    }
+  }).renderTo(document.body);
+});
+</script>
