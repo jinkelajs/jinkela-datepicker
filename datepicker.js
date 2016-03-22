@@ -23,6 +23,7 @@ class DatePickerGrid extends Jinkela {
       :scope {
         padding: 0;
         margin: 0;
+        vertical-align: top;
         border-left: 1px solid #ccc;
         border-top: 1px solid #ccc;
         list-style: none;
@@ -70,7 +71,8 @@ class DatePickerDate extends DatePickerGrid {
     let day = new Date(this.year, this.month, 1).getDay() - 1;
     for (let i = 0; i < 7; i++) {
       let text = [ '日', '一', '二', '三', '四', '五', '六' ][i];
-      new DatePickerItem({ text }).renderTo(this);
+      let item = new DatePickerItem({ text }).renderTo(this);
+      item.element.style.background = '#f0f0f0';
     }
     for (let i = 0; i < 42; i++) {
       let now = new Date(this.year, this.month, i - day);
@@ -92,6 +94,7 @@ class DatePickerMonth extends DatePickerGrid {
       :scope {
         li:nth-child(3n+1) { clear: left; }
         li { width: 83px; }
+        li a { padding: 11px 0; }
       }
     `;
   }
@@ -109,6 +112,7 @@ class DatePickerYear extends DatePickerGrid {
       :scope {
         li:nth-child(4n+1) { clear: left; }
         li { width: 62px; }
+        li a { padding: 6px 0; }
       }
     `;
   }
@@ -213,8 +217,8 @@ class DatePicker extends Jinkela {
       <dl>
         <dt>
           <a href="JavaScript:" on-click="{prev}">&lt;&lt;</a>
-          <a href="JavaScript:" on-click="{back}" if={$year}>返回</a>
-          <span if-not={$year}>请选择</span>
+          <a href="JavaScript:" on-click="{back}" if="{$year}">返回</a>
+          <span if-not="{$year}">请选择</span>
           <a href="JavaScript:" on-click="{next}">&gt;&gt;</a>
         </dt>
         <dd ref="dd"></dd>
@@ -225,15 +229,20 @@ class DatePicker extends Jinkela {
     return `
       :scope {
         position: absolute;
+        background: #fff;
         top: 100%;
         left: 0;
         margin-top: 0;
         font-size: 14px;
         display: inline-block;
+        box-shadow: 0 0 32px -6px rgba(0,0,0,.5);
         dt {
           line-height: 2;
           overflow: hidden;
           text-align: center;
+          border: 1px solid #ccc;
+          border-bottom: 0;
+          padding: 0 .5em;
           a {
             text-decoration: none;
             color: inherit;
