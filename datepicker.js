@@ -24,13 +24,13 @@ class DatePickerGrid extends Jinkela {
         padding: 0;
         margin: 0;
         vertical-align: top;
-        border-left: 1px solid #ccc;
-        border-top: 1px solid #ccc;
+        border-left: 1px solid #d7d7d7;
+        border-top: 1px solid #d7d7d7;
         list-style: none;
         display: inline-block;
         width: 252px;
         li {
-          border: 1px solid #ccc;
+          border: 1px solid #d7d7d7;
           margin-left: -1px;
           margin-top: -1px;
           float: left;
@@ -77,7 +77,7 @@ class DatePickerDate extends DatePickerGrid {
     for (let i = 0; i < 42; i++) {
       let now = new Date(this.year, this.month, i - day);
       let item = new DatePickerItem({ value: i - day, text: now.getDate() }).renderTo(this);
-      if (now.getMonth() !== this.month) item.element.style.color = '#ccc';
+      if (now.getMonth() !== this.month) item.element.style.color = '#d7d7d7';
     }
   }
   init() {
@@ -184,16 +184,16 @@ class DatePicker extends Jinkela {
     return new Date(this.year, this.month || 0, this.date == null ? 1 : this.date); // eslint-disable-line eqeqeq
   }
   update() {
-    this.dd.innerHTML = '';
+    this.uls.innerHTML = '';
     switch (true) {
       case this.year == null: // eslint-disable-line eqeqeq
-        this.current = this.dpy.renderTo(this.dd);
+        this.current = this.dpy.renderTo(this.uls);
         break;
-      case this.month == null: // eslint-disable-line eqeqeq
-        this.current = this.dpm.renderTo(this.dd);
+      case this.month == null || this.disableDate: // eslint-disable-line eqeqeq
+        this.current = this.dpm.renderTo(this.uls);
         break;
       default:
-        this.current = this.dpd.renderTo(this.dd);
+        this.current = this.dpd.renderTo(this.uls);
         break;
     }
     if (typeof this.current.update === 'function') this.current.update();
@@ -206,7 +206,7 @@ class DatePicker extends Jinkela {
       text += value.getFullYear() + ' 年';
       if (this.month != null) { // eslint-disable-line eqeqeq
         text += ' ' + (value.getMonth() + 1) + ' 月';
-        if (this.date != null) text += ' ' + value.getDate() + ' 日'; // eslint-disable-line eqeqeq
+        if (this.date != null && !this.disableDate) text += ' ' + value.getDate() + ' 日'; // eslint-disable-line eqeqeq
       }
     }
     return text;
@@ -232,7 +232,7 @@ class DatePicker extends Jinkela {
           <span if-not="{$year}">请选择</span>
           <a href="JavaScript:" on-click="{next}">&gt;&gt;</a>
         </dt>
-        <dd ref="dd"></dd>
+        <dd ref="uls"></dd>
       </dl>
     `;
   }
@@ -251,7 +251,7 @@ class DatePicker extends Jinkela {
           line-height: 2;
           overflow: hidden;
           text-align: center;
-          border: 1px solid #ccc;
+          border: 1px solid #d7d7d7;
           border-bottom: 0;
           padding: 0 .5em;
           a {
@@ -278,7 +278,8 @@ class DatePicker extends Jinkela {
 
 class JDatePicker extends Jinkela {
   init() {
-    this.datePicker = new DatePicker().renderTo(this);
+    let { disableDate } = this;
+    this.datePicker = new DatePicker({ disableDate }).renderTo(this);
     this.datePicker.onChange = () => {
       this.onDatePickerChange();
     };
@@ -309,7 +310,8 @@ class JDatePicker extends Jinkela {
 }
 
 Jinkela.register('J-DATEPICKER', (that, node) => {
-  let jdp = new JDatePicker().renderTo(node);
+  let disableDate = node.hasAttribute('disable-date');
+  let jdp = new JDatePicker({ disableDate });
   let datePicker = jdp.datePicker;
   Object.defineProperties(node, {
     name: { configurable: true, enumerable: true, writable: false, value: node.getAttribute('name') },
@@ -326,4 +328,5 @@ Jinkela.register('J-DATEPICKER', (that, node) => {
       set(value) { datePicker.value = new Date(Date.parse(value)); }
     }
   });
+  setTimeout(() => jdp.renderTo(node));
 });
