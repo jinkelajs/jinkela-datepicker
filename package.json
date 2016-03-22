@@ -6,6 +6,6 @@
   "author": "YanagiEiichi (yanagieiichi@web-tinker.com)",
   "license": "MIT",
   "scripts": {
-    "build": "babel datepicker.js -o datepicker.es5.js"
+    "prepublish": "babel datepicker.js -o datepicker.es5.js"
   }
 }
