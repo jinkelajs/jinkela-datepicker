@@ -142,7 +142,9 @@ class DatePicker extends Jinkela {
     this.$year = this.dpy.year = this.dpm.year = this.dpd.year = value;
     if (value != null) { // eslint-disable-line eqeqeq
       let year = this.value.getFullYear();
-      if (year !== value) return this.year = year;
+      if (year !== value) {
+        return this.year = year;
+      }
     }
     this.update();
   }
@@ -150,8 +152,12 @@ class DatePicker extends Jinkela {
   set month(value) {
     this.$month = this.dpy.month = this.dpm.month = this.dpd.month = value;
     if (value != null) { // eslint-disable-line eqeqeq
-      let month = this.value.getMonth();
-      if (month !== value) return this.month = month;
+      let thisValue = this.value;
+      if (thisValue.getMonth() !== value) {
+        this.month = thisValue.getMonth();
+        this.year = thisValue.getFullYear();
+        return;
+      }
     }
     this.update();
   }
@@ -159,8 +165,13 @@ class DatePicker extends Jinkela {
   set date(value) {
     this.$date = this.dpy.date = this.dpm.date = this.dpd.date = value;
     if (value != null) { // eslint-disable-line eqeqeq
-      let date = this.value.getDate();
-      if (date !== value) return this.date = date;
+      let thisValue = this.value;
+      if (thisValue.getDate() !== value) {
+        this.date = thisValue.getDate();
+        this.month = thisValue.getMonth();
+        this.year = thisValue.getFullYear();
+        return;
+      }
     }
     this.update();
   }
