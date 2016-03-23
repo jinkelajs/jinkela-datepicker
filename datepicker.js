@@ -285,11 +285,21 @@ class JDatePicker extends Jinkela {
       this.onDatePickerChange();
     };
     this.onDatePickerChange();
+    addEventListener('click', ({ target }) => {
+      if (event.isFromDatePicker) return;
+      this.element.className = '';
+    });
+    this.element.addEventListener('click', event => {
+      event.isFromDatePicker = true;
+    });
   }
   onDatePickerChange() {
     this.text = this.datePicker.text || '请选择';
   }
-  get template() { return `<span><span text="{text}"></span></span>`; }
+  popup() {
+    this.element.className = 'active';
+  }
+  get template() { return `<span><span text="{text}" on-click="{popup}"></span></span>`; }
   get styleSheet() {
     return `
       :scope {
@@ -300,12 +310,12 @@ class JDatePicker extends Jinkela {
           &:before {
             content: attr(text);
           }
-          cursor: default;
+          cursor: pointer;
         }
         > dl {
           display: none;
         }
-        &:hover > dl {
+        &.active > dl {
           display: block;
         }
       }
