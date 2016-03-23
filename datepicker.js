@@ -285,7 +285,7 @@ class JDatePicker extends Jinkela {
       this.onDatePickerChange();
     };
     this.onDatePickerChange();
-    addEventListener('click', ({ target }) => {
+    addEventListener('click', event => {
       if (event.isFromDatePicker) return;
       this.element.className = '';
     });
