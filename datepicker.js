@@ -289,7 +289,7 @@ class JDatePicker extends Jinkela {
   onDatePickerChange() {
     this.text = this.datePicker.text || '请选择';
   }
-  get template() { return `<span><span>{text}</span></span>`; }
+  get template() { return `<span><span text="{text}"></span></span>`; }
   get styleSheet() {
     return `
       :scope {
@@ -297,6 +297,9 @@ class JDatePicker extends Jinkela {
         line-height: 1.5em;
         height: 1.5em;
         > span:first-child {
+          &:before {
+            content: attr(text);
+          }
           cursor: default;
         }
         > dl {
