@@ -124,7 +124,7 @@ class DatePickerYear extends DatePickerGrid {
     for (let i = 0; i < this.pageSize; i++) new DatePickerItem({ value: i + value, text: i + value }).renderTo(this);
   }
   init() {
-    this.starting = new Date().getFullYear() - 36;
+    this.starting = this.starting || new Date().getFullYear() - 36;
   }
   prev() { this.starting -= this.pageSize; }
   next() { this.starting += this.pageSize; }
@@ -132,7 +132,8 @@ class DatePickerYear extends DatePickerGrid {
 
 class DatePicker extends Jinkela {
   init() {
-    this.dpy = new DatePickerYear({ parent: this, onSelect: value => this.year = value });
+    let { starting } = this;
+    this.dpy = new DatePickerYear({ parent: this, onSelect: value => this.year = value, starting });
     this.dpm = new DatePickerMonth({ parent: this, onSelect: value => this.month = value });
     this.dpd = new DatePickerDate({ parent: this, onSelect: value => this.date = value });
     this.update();
@@ -278,8 +279,8 @@ class DatePicker extends Jinkela {
 
 class JDatePicker extends Jinkela {
   init() {
-    let { disableDate } = this;
-    this.datePicker = new DatePicker({ disableDate }).renderTo(this);
+    let { disableDate, starting } = this;
+    this.datePicker = new DatePicker({ disableDate, starting }).renderTo(this);
     this.datePicker.onChange = () => {
       this.onDatePickerChange();
     };
@@ -311,7 +312,8 @@ class JDatePicker extends Jinkela {
 
 Jinkela.register('J-DATEPICKER', (that, node) => {
   let disableDate = node.hasAttribute('disable-date');
-  let jdp = new JDatePicker({ disableDate });
+  let starting = +node.getAttribute('starting');
+  let jdp = new JDatePicker({ disableDate, starting });
   let datePicker = jdp.datePicker;
   Object.defineProperties(node, {
     name: { configurable: true, enumerable: true, writable: false, value: node.getAttribute('name') },
