@@ -241,6 +241,7 @@ class DatePicker extends Jinkela {
     return `
       :scope {
         position: absolute;
+        z-index: 1;
         background: #fff;
         top: 100%;
         left: 0;
@@ -286,7 +287,12 @@ class JDatePicker extends Jinkela {
     };
     this.onDatePickerChange();
     addEventListener('click', event => {
-      if (event.isFromDatePicker) return;
+      if (!this.element.className) return;
+      if (event.isFromPopup) return;
+      if (event.isFromDatePicker) {
+        let value = (this.disableDate ? this.datePicker.month : this.datePicker.date);
+        if (value == null) return; // eslint-disable-line eqeqeq
+      }
       this.element.className = '';
     });
     this.element.addEventListener('click', event => {
@@ -296,7 +302,8 @@ class JDatePicker extends Jinkela {
   onDatePickerChange() {
     this.text = this.datePicker.text || '请选择';
   }
-  popup() {
+  popup(event) {
+    event.isFromPopup = true;
     this.element.className = 'active';
   }
   get template() { return `<span><span text="{text}" on-click="{popup}"></span></span>`; }
