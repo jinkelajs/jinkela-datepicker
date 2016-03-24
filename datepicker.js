@@ -288,8 +288,8 @@ class JDatePicker extends Jinkela {
     this.onDatePickerChange();
     addEventListener('click', event => {
       if (!this.element.className) return;
-      if (event.isFromPopup) return;
       if (event.isFromDatePicker) {
+        if (!event.target.parentNode.getAttribute('data-value')) return;
         let value = (this.disableDate ? this.datePicker.month : this.datePicker.date);
         if (value == null) return; // eslint-disable-line eqeqeq
       }
@@ -302,10 +302,7 @@ class JDatePicker extends Jinkela {
   onDatePickerChange() {
     this.text = this.datePicker.text || '请选择';
   }
-  popup(event) {
-    event.isFromPopup = true;
-    this.element.className = 'active';
-  }
+  popup(event) { this.element.className = 'active'; }
   get template() { return `<span><span text="{text}" on-click="{popup}"></span></span>`; }
   get styleSheet() {
     return `
