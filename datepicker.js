@@ -348,6 +348,10 @@ Jinkela.register('J-DATEPICKER', (that, node) => {
         }
       },
       set(value) { datePicker.value = new Date(Date.parse(value)); }
+    },
+    focus: {
+      configurable: true,
+      value: () => void node.scrollIntoView()
     }
   });
   setTimeout(() => jdp.renderTo(node));
