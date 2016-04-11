@@ -289,6 +289,7 @@ class JDatePicker extends Jinkela {
     addEventListener('click', event => {
       if (!this.element.className) return;
       if (event.isFromDatePicker) {
+        if (!event.target.parentNode) return;
         if (!event.target.parentNode.getAttribute('data-value')) return;
         let value = (this.disableDate ? this.datePicker.month : this.datePicker.date);
         if (value == null) return; // eslint-disable-line eqeqeq
