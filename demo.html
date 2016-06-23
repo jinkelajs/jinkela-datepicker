@@ -6,14 +6,9 @@
 <script src="datepicker.js"></script>
 <script>
 addEventListener('DOMContentLoaded', () => {
-  (new class extends Jinkela {
-    get template() {
-      return `
-        <div>
-          这是一个日期选择控件：<j-datepicker starting="2006"></j-datepicker>
-        </div>
-      `;
-    }
-  }).renderTo(document.body);
+  let dp = new DatePicker().renderTo(document.body);
+  dp.onChange = () => {
+    console.log(dp.value);
+  }
 });
 </script>
