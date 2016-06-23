@@ -10,15 +10,16 @@
   }
 
   class DatePickerGrid extends Jinkela {
-    onClick({ target }) {
+    get tagName() { return `ul`; }
+    click({ target }) {
       if (target.tagName !== 'A') return;
       let value = target.parentNode.getAttribute('data-value');
       if (value && typeof this.onSelect === 'function') {
         this.onSelect(+value);
       }
     }
-    get template() {
-      return `<ul on-click="{onClick}"></ul>`;
+    init() {
+      this.element.addEventListener('click', event => this.click(event));
     }
     get styleSheet() {
       return `
@@ -138,6 +139,7 @@
       this.dpy = new DatePickerYear({ parent: this, onSelect: value => this.year = value, starting });
       this.dpm = new DatePickerMonth({ parent: this, onSelect: value => this.month = value });
       this.dpd = new DatePickerDate({ parent: this, onSelect: value => this.date = value });
+      this.element.addEventListener('click', event => this.action(event));
       this.update();
     }
     get year() { return this.$year; }
@@ -214,26 +216,23 @@
       }
       return text;
     }
-    prev() {
-      if (!this.current || typeof this.current.prev !== 'function') return;
-      this.current.prev();
-    }
-    next() {
-      if (!this.current || typeof this.current.next !== 'function') return;
-      this.current.next();
-    }
-    back() {
-      if (!this.current || typeof this.current.back !== 'function') return;
-      this.current.back();
+    action({ target }) {
+      try {
+        switch (target.dataset.action) {
+          case 'prev': return this.current.prev();
+          case 'next': return this.current.next();
+          case 'back': return this.current.back();
+        }
+      } catch (error) {}
     }
     get template() {
       return `
         <dl>
-          <dt>
-            <a href="JavaScript:" on-click="{prev}">&lt;&lt;</a>
-            <a href="JavaScript:" on-click="{back}" if="{$year}">返回</a>
-            <span if-not="{$year}">请选择</span>
-            <a href="JavaScript:" on-click="{next}">&gt;&gt;</a>
+          <dt data-year="{$year}">
+            <a href="JavaScript:" data-action="prev">&lt;&lt;</a>
+            <a href="JavaScript:" data-action="back">返回</a>
+            <span>请选择</span>
+            <a href="JavaScript:" data-action="next">&gt;&gt;</a>
           </dt>
           <dd ref="uls"></dd>
         </dl>
@@ -271,6 +270,12 @@
             a:last-child {
               float: right;
             }
+            > [data-action="back"] { display: inline-block; }
+            > span { display: none; }
+            &[data-year=""] {
+              > [data-action="back"] { display: none; }
+              > span { display: inline-block; }
+            }
           }
           dd {
             margin: 0;
@@ -280,8 +285,23 @@
     }
   }
 
+  class DatePickerField extends Jinkela {
+    onClick() {}
+    init() { this.element.addEventListener('click', event => this.onClick(event)); }
+    get template() { return '<span text="{text}"><span>'; }
+    get styleSheet() {
+      return `
+        :scope {
+          cursor: pointer;
+          &:before { content: attr(text); }
+        }
+      `;
+    }
+  }
+
   class DatePicker extends Jinkela {
     init() {
+      this.field = new DatePickerField({ onClick: () => this.element.className = 'active' }).renderTo(this);
       this.panel = new DatePickerPanel(this).renderTo(this);
       this.panel.onChange = () => this.change();
       this.update();
@@ -300,25 +320,20 @@
       }
       this.element.className = '';
     }
-    update() { this.text = this.panel.text || this.defaultText || '请选择'; }
+    update() { this.field.text = this.panel.text || this.defaultText || '请选择'; }
     change() {
       this.update();
       this.onChange();
     }
-    popup(event) { this.element.className = 'active'; }
     get value() { return this.panel.value; }
     set value(value) { this.panel.value = value; }
-    get template() { return `<span><span text="{text}" on-click="{popup}"></span></span>`; }
+    get template() { return `<span></span>`; }
     get styleSheet() {
       return `
         :scope {
           position: relative;
           line-height: 1.5em;
           height: 1.5em;
-          > span:first-child {
-            &:before { content: attr(text); }
-            cursor: pointer;
-          }
           > dl { display: none; }
           &.active > dl { display: block; }
         }
