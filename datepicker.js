@@ -332,6 +332,7 @@
     }
     get value() { return this.panel.value; }
     set value(value) {
+      if (typeof value === 'string') value = new Date(value);
       if (!this.panel) return this.$value = value;
       this.panel.value = value;
       this.update();
