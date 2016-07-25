@@ -4,9 +4,24 @@
 <script src="datepicker.js"></script>
 <script>
 addEventListener('DOMContentLoaded', () => {
-  let dp = new DatePicker({ value: new Date().toISOString() }).renderTo(document.body);
-  dp.onChange = () => {
-    console.log(dp.value);
-  }
+
+  let c1 = new Jinkela().renderTo(document.body);
+  let dp1 = new DatePicker({ value: new Date().toISOString() }).renderTo(c1);
+  dp1.onChange = () => {
+    console.log(dp1.value);
+  };
+
+  let c2 = new Jinkela().renderTo(document.body);
+  let dp2 = new DatePicker().renderTo(c2);
+  dp2.onChange = () => {
+    console.log(dp2.value);
+  };
+
+  let c3 = new Jinkela().renderTo(document.body);
+  let dp3 = new DatePicker({ value: new Date(), offset: 86400000 }).renderTo(c3);
+  dp3.onChange = () => {
+    console.log(dp3.value);
+  };
+
 });
 </script>

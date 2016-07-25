@@ -308,11 +308,11 @@
       addEventListener('click', event => this.checkClose(event));
       this.element.addEventListener('click', event => event.isFromDatePicker = true);
       Object.defineProperty(this.element, 'value', { get: () => this.value, set: value => this.value = value });
-      this['@@didMountHandlers'].push(() => {
-        if (!('$value' in this)) return;
-        this.value = this.$value;
-        delete this.$value;
-      });
+    }
+    didMount() {
+      if (!('$value' in this)) return;
+      this.value = this.$value;
+      delete this.$value;
     }
     onChange() {}
     checkClose(event) {
@@ -330,9 +330,14 @@
       this.update();
       this.onChange();
     }
-    get value() { return this.panel.value; }
+    get value() {
+      let value = this.panel.value;
+      if ('offset' in this) value = new Date(value.getTime() + this.offset);
+      return value;
+    }
     set value(value) {
       if (typeof value === 'string') value = new Date(value);
+      if ('offset' in this) value = new Date(value.getTime() - this.offset);
       if (!this.panel) return this.$value = value;
       this.panel.value = value;
       this.update();
