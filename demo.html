@@ -1,27 +1,74 @@
-<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.2/jinkela.js"></script>
-<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.2/directives/ref.js"></script>
-<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.2/plugins/nesting.js"></script>
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.19/jinkela.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.19/directives/ref.js"></script>
+<script src="//github.elemecdn.com/uglifyjs!YanagiEiichi/jinkela/1.2.19/plugins/nesting.js"></script>
 <script src="datepicker.js"></script>
 <script>
+class Box extends Jinkela {
+  init() {
+    this.to(document.body);
+  }
+  get template() {
+    return `
+      <dl>
+        <dt>{title}</dt>
+        <dd><meta ref="children" /></dd>
+      </dl>
+    `;
+  }
+  get styleSheet() {
+    return `
+      :scope {
+        font-size: 14px;
+        > dt {
+          width: 100px;
+          text-align: right;
+          float: left;
+          line-height: 36px;
+          margin-right: 12px;
+        }
+      }
+    `;
+  }
+}
+
 addEventListener('DOMContentLoaded', () => {
 
-  let c1 = new Jinkela().renderTo(document.body);
-  let dp1 = new DatePicker({ value: new Date().toISOString() }).renderTo(c1);
-  dp1.onChange = () => {
-    console.log(dp1.value);
-  };
+  new Box({
+    title: 'default',
+    children: [
+      new DatePicker()
+    ]
+  });
 
-  let c2 = new Jinkela().renderTo(document.body);
-  let dp2 = new DatePicker().renderTo(c2);
-  dp2.onChange = () => {
-    console.log(dp2.value);
-  };
+  new Box({
+    title: 'value',
+    children: [
+      new DatePicker({ value: new Date() })
+    ]
+  });
 
-  let c3 = new Jinkela().renderTo(document.body);
-  let dp3 = new DatePicker({ value: new Date(), offset: 86400000 }).renderTo(c3);
-  dp3.onChange = () => {
-    console.log(dp3.value);
-  };
+  new Box({
+    title: 'offset',
+    children: [
+      new DatePicker({ offset: 86400000 })
+    ]
+  });
+
+  new Box({
+    title: 'starting',
+    children: [
+      new DatePicker({ starting: 1991 })
+    ]
+  });
+
+  new Box({
+    title: 'placeholder',
+    children: [
+      new DatePicker({ placeholder: 'placeholder' })
+    ]
+  });
 
 });
 </script>
