@@ -1,11 +1,16 @@
 {
   "name": "jinkela-datepicker",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A DatePicker Control on Jinkela",
   "main": "datepicker.js",
   "author": "YanagiEiichi (yanagieiichi@web-tinker.com)",
   "license": "MIT",
   "scripts": {
     "prepublish": "babel datepicker.js -o datepicker.es5.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0"
   }
 }
