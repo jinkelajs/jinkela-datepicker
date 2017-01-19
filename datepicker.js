@@ -229,9 +229,12 @@
     }
     get month() { return this.$month; }
     set month(value) {
-      this.$month = this.dpy.month = this.dpm.month = this.dpd.month = value;
-      this.monthText = this.$month + 1;
-      this.update();
+      this.commit(() => {
+        this.year += Math.floor(value / 12);
+        value = (value % 12 + 12) % 12;
+        this.$month = this.dpy.month = this.dpm.month = this.dpd.month = value;
+        this.monthText = this.$month + 1;
+      });
     }
     get date() { return this.$date; }
     set date(value) {

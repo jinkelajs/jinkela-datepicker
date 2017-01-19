@@ -1,6 +1,6 @@
 {
   "name": "jinkela-datepicker",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A DatePicker Control on Jinkela",
   "main": "datepicker.js",
   "author": "YanagiEiichi (yanagieiichi@web-tinker.com)",
