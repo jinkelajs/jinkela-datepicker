@@ -238,11 +238,18 @@
       this.update();
     }
     set value(date) {
-      this.commit(() => {
-        this.year = date.getFullYear();
-        this.month = date.getMonth();
-        this.date = date.getDate();
-      });
+      try {
+        if (date == null) throw void 0;
+        if (!(date instanceof Date)) date = new Date(date);
+        if (+date !== +date) throw void 0;
+        this.commit(() => {
+          this.year = date.getFullYear();
+          this.month = date.getMonth();
+          this.date = date.getDate();
+        });
+      } catch (error) {
+        this.resetYear();
+      }
     }
     get value() {
       if (this.year == null) return new Date(0 / 0); // eslint-disable-line eqeqeq
@@ -448,8 +455,7 @@
     }
     set value(value) {
       if (typeof value === 'string') value = new Date(value);
-      if ('offset' in this) value = new Date(value.getTime() - this.offset);
-      if (!this.panel) return this.$value = value;
+      if (value instanceof Date && 'offset' in this) value = new Date(value.getTime() - this.offset);
       this.panel.value = value;
       this.update();
     }

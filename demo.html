@@ -50,6 +50,13 @@ addEventListener('DOMContentLoaded', () => {
   });
 
   new Box({
+    title: 'error value',
+    children: [
+      new DatePicker({ value: null })
+    ]
+  });
+
+  new Box({
     title: 'offset',
     children: [
       new DatePicker({ offset: 86400000 })
