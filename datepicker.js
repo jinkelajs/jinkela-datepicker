@@ -205,7 +205,7 @@
   class DatePickerPanel extends Jinkela {
     beforeParse(params) {
       this.lock = 0;
-      if (!params.starting) params.starting = new Date().getFullYear() - 8;
+      if (!params.starting) params.starting = null;
       this.dpy = new DatePickerYear({ onSelect: value => this.year = value });
       this.dpm = new DatePickerMonth({ onSelect: value => this.month = value });
       this.dpd = new DatePickerDate({ onSelect: value => this.date = value });
@@ -216,6 +216,7 @@
     }
     get starting() { return this.$starting; }
     set starting(value) {
+      value = value || new Date().getFullYear() - 8;
       this.$starting = this.dpy.starting = value;
       this.startingText = value + ' ~ ' + (value + 19) + ' 年';
       this.update();
@@ -315,7 +316,7 @@
     }
     resetYear() {
       this.commit(() => {
-        this.starting = this.year - 8;
+        this.starting = this.year ? this.year - 8 : null;
         this.year = this.date = this.month = null;
       });
     }
