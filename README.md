@@ -1,3 +1,3 @@
 ## Jinkela-DatePicker
 
-A DatePicker Control on Jinkela
+https://yanagieiichi.github.io/jinkela-datepicker/
