@@ -5,6 +5,7 @@
   "main": "datepicker.js",
   "author": "YanagiEiichi (yanagieiichi@web-tinker.com)",
   "license": "MIT",
+  "repository": "jinkelajs/jinkela-datepicker",
   "scripts": {
     "prepublish": "babel datepicker.js -o datepicker.es5.js"
   },
