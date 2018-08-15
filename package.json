@@ -7,11 +7,13 @@
   "license": "MIT",
   "repository": "jinkelajs/jinkela-datepicker",
   "scripts": {
-    "prepublish": "babel datepicker.js -o datepicker.es5.js"
+    "lint": "eslint index.js --fix",
+    "test": "ui-tester-start tests/*/*.html"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-stage-0": "^6.16.0"
+    "jinkela-1.2.x": "github:jinkelajs/jinkela#1.2.21",
+    "jinkela-1.3.x": "github:jinkelajs/jinkela#1.3.5",
+    "eslint": "^4.2.0",
+    "eslint-config-elemefe": "^0.3.0"
   }
 }
