@@ -1,3 +1,4 @@
 .*
-*.es5.js
+*.log
+umd.js
 node_modules

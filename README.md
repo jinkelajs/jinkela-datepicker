@@ -1,3 +1,3 @@
 ## Jinkela-DatePicker
 
-https://jinkelajs.github.io/jinkela-datepicker/
+https://jinkelajs.github.io/jinkela-datepicker/example/
