@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let dp = new DatePicker({ placeholder: 'placeholder' }).to(document.body);
+  Tester.assert(dp.element.querySelector('input').placeholder === 'placeholder', 'placehoder error');
+  Tester.assert(isNaN(dp.value), 'value of t1 must not be a number');
+
+  Tester.feedback(true);
+
+});
+</script>

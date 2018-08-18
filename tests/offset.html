@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let dp = new DatePicker({ offset: 86400000 }).to(document.body);
+  Tester.assert(isNaN(dp.value), 'value of t1 must not be a number');
+  let { panel } = dp;
+  panel.element.querySelector('li').click();
+  panel.element.querySelector('li').click();
+  panel.element.querySelector('li:nth-child(10)').click();
+  Tester.assert(panel.text === '2009-12-29', 'text');
+  Tester.assert(+dp.value === +new Date('2009/12/30'), 'value');
+
+  Tester.feedback(true);
+
+});
+</script>

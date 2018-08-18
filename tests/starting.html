@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let dp = new DatePicker({ starting: 1991 }).to(document.body);
+  Tester.assert(isNaN(dp.value), 'value of t1 must not be a number');
+  dp.element.querySelector('input').focus();
+  dp.panel.element.querySelector('li').dispatchEvent(new Event('click'));
+  Tester.assert(+dp.value === +new Date('1991/1/1'), 'dp year error');
+  dp.panel.element.querySelector('li').nextElementSibling.dispatchEvent(new Event('click'));
+  Tester.assert(+dp.value === +new Date('1991/2/1'), 'dp month error');
+  dp.panel.element.querySelector('li:nth-child(10)').nextElementSibling.dispatchEvent(new Event('click'));
+  Tester.assert(+dp.value === +new Date('1991/1/30'), 'dp date error');
+
+  Tester.feedback(true);
+
+});
+</script>
