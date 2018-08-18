@@ -2,65 +2,15 @@
 <meta charset="utf-8" />
 <script src="jinkela.js"></script>
 <script src="/tester.js"></script>
-<script src="/umd.js"></script>
+<script src="/DatePicker.js"></script>
 <script>
-class Box extends Jinkela {
-  init() {
-    this.to(document.body);
-  }
-  get template() {
-    return `
-      <dl>
-        <dt>{title}</dt>
-        <dd><meta ref="children" /></dd>
-      </dl>
-    `;
-  }
-  get styleSheet() {
-    return `
-      :scope {
-        font-size: 14px;
-        > dt {
-          width: 100px;
-          text-align: right;
-          float: left;
-          line-height: 36px;
-          margin-right: 12px;
-        }
-      }
-    `;
-  }
-}
-
 addEventListener('DOMContentLoaded', () => {
 
-  let now = new Date();
-
-  let t1 = new DatePicker();
-  new Box({ title: 'default', children: [ t1 ] });
+  let t1 = new DatePicker().to(document.body);
   Tester.assert(isNaN(t1.value), 'value of t1 must not be a number');
 
-  let t2 = new DatePicker({ value: now });
-  new Box({ title: 'value', children: [ t2 ] });
-  Tester.assert(now.getDate() === t2.value.getDate(), `t2 date error`);
-  Tester.assert(now.getMonth() === t2.value.getMonth(), `t2 month error`);
-  Tester.assert(now.getFullYear() === t2.value.getFullYear(), `t2 year error`);
-
-  let t3 = new DatePicker({ value: null });
-  new Box({ title: 'error value', children: [ t3 ] });
-  Tester.assert(isNaN(t3.value), 'value of t1 must not be a number');
-
-  let t4 = new DatePicker({ offset: 86400000 });
-  new Box({ title: 'offset', children: [ t4 ] });
-  Tester.assert(isNaN(t4.value), 'value of t1 must not be a number');
-
-  let t5 = new DatePicker({ starting: 1991 });
-  new Box({ title: 'starting', children: [ t5 ] });
-  Tester.assert(isNaN(t4.value), 'value of t1 must not be a number');
-
-  let t6 = new DatePicker({ placeholder: 'placeholder' });
-  new Box({ title: 'placeholder', children: [ t6 ] });
-  Tester.assert(isNaN(t4.value), 'value of t1 must not be a number');
+  let t2 = new DatePicker({ value: null }).to(document.body);
+  Tester.assert(isNaN(t2.value), 'value of t2 must not be a number');
 
   Tester.feedback(true);
 

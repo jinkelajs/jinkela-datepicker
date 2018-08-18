@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let now = new Date();
+  let dp = new DatePicker({ value: now }).to(document.body);
+  Tester.assert(now.getDate() === dp.value.getDate(), `dp date error`);
+  Tester.assert(now.getMonth() === dp.value.getMonth(), `dp month error`);
+  Tester.assert(now.getFullYear() === dp.value.getFullYear(), `dp year error`);
+
+  Tester.feedback(true);
+
+});
+</script>
