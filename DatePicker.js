@@ -91,6 +91,7 @@ var DatePicker;
     onClick() {
       this.panel.value = this.dateObject;
       this.panel.mode = 'ok';
+      this.panel.hide();
     }
     init() {
       let { now, dateObject, panel } = this;
@@ -351,13 +352,14 @@ var DatePicker;
         if (document.body.contains(this.element)) {
           this.updatePosition();
         } else {
-          removeEventListener('scroll', scroll);
+          removeEventListener('scroll', scroll, true);
           delete this.scroll;
         }
       };
       this.scroll = scroll;
-      addEventListener('scroll', scroll);
+      addEventListener('scroll', scroll, true);
     }
+    hide() { this.element.remove(); }
     show() {
       this.to(document.body);
       this.startFixPositionWhileScroll();
@@ -442,7 +444,6 @@ var DatePicker;
     get styleSheet() {
       return `
         :scope {
-          width: 226px;
           position: relative;
           border: 1px solid #bfcbd9;
           border-radius: 4px;
@@ -455,6 +456,7 @@ var DatePicker;
           padding: 3px 10px;
           outline: 0;
           font-family: inherit;
+          width: 100%;
           &:hover {
             border-color: #8391a5;
           }
@@ -507,6 +509,9 @@ var DatePicker;
       this.onChange();
     }
 
+    get width() { return this.element.getAttribute('width'); }
+    set width(value) { this.element.style.setProperty('width', value); }
+
     get value() {
       let value = this.panel.value;
       if (value == null) return value; // eslint-disable-line eqeqeq
@@ -541,6 +546,7 @@ var DatePicker;
       return `
         :scope {
           font-size: 14px;
+          width: 106px;
           font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
           -webkit-font-smoothing: antialiased;
           position: relative;
