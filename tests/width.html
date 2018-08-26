@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let width = '200px';
+  let t1 = new DatePicker({ width }).to(document.body);
+  Tester.assert(t1.element.style.getPropertyValue('width') === '200px', 'width');
+
+  Tester.feedback(true);
+
+});
+</script>

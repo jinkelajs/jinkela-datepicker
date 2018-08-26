@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<script src="jinkela.js"></script>
+<script src="/tester.js"></script>
+<script src="/DatePicker.js"></script>
+<div id="container" style="overflow: auto; height: 200px; border: 1px solid red;">
+  <div id="high" style="height: 5000px;"></div>
+</div>
+<script>
+addEventListener('DOMContentLoaded', () => {
+
+  let t1 = new DatePicker().to(high);
+  t1.element.querySelector('input').dispatchEvent(new Event('focus'));
+
+  Tester.assert(document.body.contains(t1.panel.element), 'panel 此时应该是显示状态');
+
+  container.scrollTop = container.scrollHeight;
+
+  setTimeout(() => {
+
+    Tester.assert(parseInt(t1.panel.element.style.top, 10) < -4000, 'panel 的 y 坐标应该在屏幕外');
+
+    Tester.feedback(true);
+
+  }, 100);
+
+});
+</script>
